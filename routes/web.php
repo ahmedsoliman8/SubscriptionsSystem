@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Account\Subscriptions\SubscriptionCancelController;
+use App\Http\Controllers\Account\Subscriptions\SubscriptionInvoiceController;
 use App\Http\Controllers\Account\Subscriptions\SubscriptionResumeController;
 use App\Http\Controllers\Subscriptions\PlanController;
 use App\Http\Controllers\Subscriptions\SubscriptionController;
@@ -55,6 +56,15 @@ Route::group(['namespace' => 'Account', 'prefix' => 'account'], function () {
 
 
         Route::post('/resume', [SubscriptionResumeController::class, 'store']);
+
+        Route::get('/invoices', [SubscriptionInvoiceController::class, 'index'])
+            ->name('account.subscriptions.invoices');
+
+        Route::get('/invoices/{id}', [SubscriptionInvoiceController::class, 'show'])
+            ->name('account.subscriptions.invoice');;
+
+
+
 
 
     });

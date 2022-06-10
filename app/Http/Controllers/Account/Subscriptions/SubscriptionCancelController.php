@@ -9,7 +9,7 @@ class SubscriptionCancelController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth','subscribed']);
     }
 
     public function index()
@@ -19,7 +19,7 @@ class SubscriptionCancelController extends Controller
 
     public function store(Request $request)
     {
-        $subscription = $request->user()->subscription('default');
+        $this->authorize('cancel', $subscription = $request->user()->subscription('default'));
         $subscription->cancel();
         return redirect()->route('account.subscriptions');
     }

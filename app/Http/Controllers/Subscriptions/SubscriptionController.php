@@ -10,7 +10,7 @@ class SubscriptionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth','not.subscribed']);
     }
 
     public function index(Request $request)
@@ -26,7 +26,7 @@ class SubscriptionController extends Controller
             'token' => 'required'
         ]);
         $plan = Plan::where('slug', $request->plan)
-            ->orWhere('slug', 'monthly')
+          //  ->orWhere('slug', 'monthly')
             ->first();
         $request->user()->newSubscription('default', $plan->stripe_id)
             ->create($request->token);
