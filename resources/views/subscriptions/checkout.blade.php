@@ -9,6 +9,10 @@
 
                     <div class="card-body">
                         <x:card-form :action="route('subscriptions.store')">
+                            <div class="mb-3">
+                                <label for="coupon" class="form-label">Coupon</label>
+                                <input type="text" name="coupon" id="coupon" class="form-control">
+                            </div>
                             <input type="hidden" name="plan" value="{{request('plan')}}"/>
                             <button type="submit" class="btn btn-primary" id="card-button"
                                     data-secret="{{$intent->client_secret}}">Pay

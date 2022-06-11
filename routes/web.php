@@ -3,6 +3,7 @@
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Account\Subscriptions\SubscriptionCancelController;
 use App\Http\Controllers\Account\Subscriptions\SubscriptionCardController;
+use App\Http\Controllers\Account\Subscriptions\SubscriptionCouponController;
 use App\Http\Controllers\Account\Subscriptions\SubscriptionInvoiceController;
 use App\Http\Controllers\Account\Subscriptions\SubscriptionResumeController;
 use App\Http\Controllers\Account\Subscriptions\SubscriptionSwapController;
@@ -72,6 +73,13 @@ Route::group(['namespace' => 'Account', 'prefix' => 'account'], function () {
 
 
         Route::post('/card', [SubscriptionCardController::class, 'store']);
+
+
+        Route::get('/coupon', [SubscriptionCouponController::class, 'index'])
+            ->name('account.subscriptions.coupon');
+
+
+        Route::post('/coupon', [SubscriptionCouponController::class, 'store']);
 
 
         Route::get('/invoices', [SubscriptionInvoiceController::class, 'index'])

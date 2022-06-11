@@ -23,6 +23,9 @@
                                 Plan</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('account.subscriptions.card')}}">Update
                                 Card</a></li>
+
+                            <li class="nav-item"><a class="nav-link" href="{{route('account.subscriptions.coupon')}}">Apply
+                                    Coupon</a></li>
                     @endif
 
                     <li class="nav-item"><a class="nav-link" href="{{route('account.subscriptions.invoices')}}">Invoices

@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Subscriptions;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
+use App\Rules\ValidCoupon;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','not.subscribed']);
+        $this->middleware(['auth', 'not.subscribed']);
     }
 
     public function index(Request $request)
@@ -24,12 +25,15 @@ class SubscriptionController extends Controller
     {
         $this->validate($request, [
             'token' => 'required',
+            'coupon' => ['nullable', new ValidCoupon],
             'plan' => 'required|exists:plans,slug'
         ]);
-        $plan = Plan::where('slug', $request->get('plan','monthly'))
-          //  ->orWhere('slug', 'monthly')
+        // dd($request->coupon);
+        $plan = Plan::where('slug', $request->get('plan', 'monthly'))
+            //  ->orWhere('slug', 'monthly')
             ->first();
         $request->user()->newSubscription('default', $plan->stripe_id)
+            ->withCoupon($request->coupon)
             ->create($request->token);
         return back();
     }
