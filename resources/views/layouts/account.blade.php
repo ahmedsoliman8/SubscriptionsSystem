@@ -18,10 +18,15 @@
                             <li class="nav-item"><a class="nav-link" href="{{route('account.subscriptions.resume')}}">Resume
                                     Subscription</a></li>
                         @endcan
+
+                        <li class="nav-item"><a class="nav-link" href="{{route('account.subscriptions.swap')}}">Swap
+                                Plan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('account.subscriptions.card')}}">Update
+                                Card</a></li>
                     @endif
 
                     <li class="nav-item"><a class="nav-link" href="{{route('account.subscriptions.invoices')}}">Invoices
-                            </a></li>
+                        </a></li>
                 </ul>
             </div>
             <div class="col-md-9">
