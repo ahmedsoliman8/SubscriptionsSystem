@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Presenters\CustomerPresenter;
+use App\Presenters\InvoicePresenter;
+use App\Presenters\SubscriptionPresenter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +50,30 @@ class User extends Authenticatable
     public function plan()
     {
         return $this->hasOneThrough(Plan::class, Subscription::class,
-            'user_id', 'stripe_id', 'id','stripe_price');
+            'user_id', 'stripe_id', 'id', 'stripe_price');
+    }
+
+    public function presentSubscription()
+    {
+        if (!$subscription = $this->subscription('default')) {
+            return null;
+        }
+        return new SubscriptionPresenter($subscription->asStripeSubscription());
+    }
+
+    public function presentUpcomingInvoice()
+    {
+        if (!$invoice = $this->upcomingInvoice()) {
+            return null;
+        }
+        return new InvoicePresenter($invoice->asStripeInvoice());
+    }
+
+    public function presentCustomer()
+    {
+        if (!$this->hasStripeId()) {
+            return null;
+        }
+        return new CustomerPresenter($this->asStripeCustomer());
     }
 }

@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Stripe\Exception\InvalidRequestException;
+use Stripe\StripeClient;
 
 
 class ValidCoupon implements Rule
@@ -29,7 +30,7 @@ class ValidCoupon implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $stripe = new \Stripe\StripeClient(
+            $stripe = new StripeClient(
                 config('cashier.secret')
             );
             $coupon = $stripe->coupons->retrieve($value, []);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account\Subscriptions;
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use Illuminate\Http\Request;
+use Laravel\Cashier\Exceptions\IncompletePayment;
 
 class SubscriptionSwapController extends Controller
 {
@@ -27,8 +28,17 @@ class SubscriptionSwapController extends Controller
         ]);
         $plan = Plan::where('slug', $request->plan)
             ->first();
-        $request->user()->subscription('default')
-            ->swap($plan->stripe_id);
+        try {
+            $request->user()->subscription('default')
+                ->swap($plan->stripe_id);
+        } catch (IncompletePayment $e) {
+            // Check specific conditions...
+            return redirect()->route(
+                'cashier.payment',
+                [$e->payment->id, 'redirect' => route('account.subscriptions')]);
+
+        }
+
         return redirect()->route('account.subscriptions');
     }
 }
